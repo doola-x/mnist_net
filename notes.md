@@ -3,3 +3,5 @@
 creating two layers did not affect effectiveness (lol). lowering neurons did
 
 learning rate of .1 gets 96% *click* noice
+
+one hidden layer seems to work better than additional layers.

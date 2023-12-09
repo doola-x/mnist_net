@@ -15,13 +15,12 @@ class Net(torch.nn.Module):
         super(Net, self).__init__()
         self.fc1 = torch.nn.Linear(28 * 28, 100)
         self.fc2 = torch.nn.Linear(100, 100)
-        self.fc3 = torch.nn.Linear(100, 100)
         self.fc4 = torch.nn.Linear(100, 10)
 
     def forward(self, x):
         x = x.view(-1, 28 * 28)
         x = torch.nn.functional.relu(self.fc1(x))
-        x = self.fc2(x)
+        x = self.fc4(x)
         return x
 
 net = Net()
