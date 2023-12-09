@@ -13,8 +13,10 @@ test_loader = torch.utils.data.DataLoader(test_set, batch_size=1000, shuffle=Fal
 class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.fc1 = torch.nn.Linear(28 * 28, 500)
-        self.fc2 = torch.nn.Linear(500, 10)
+        self.fc1 = torch.nn.Linear(28 * 28, 100)
+        self.fc2 = torch.nn.Linear(100, 100)
+        self.fc3 = torch.nn.Linear(100, 100)
+        self.fc4 = torch.nn.Linear(100, 10)
 
     def forward(self, x):
         x = x.view(-1, 28 * 28)
@@ -26,7 +28,7 @@ net = Net()
 
 # Define loss function and optimizer
 criterion = torch.nn.CrossEntropyLoss()
-optimizer = torch.optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
+optimizer = torch.optim.SGD(net.parameters(), lr=0.1, momentum=0.9)
 
 # Train the network
 for epoch in range(2):  # loop over the dataset multiple times
