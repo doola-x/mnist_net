@@ -1,6 +1,8 @@
 import torch
 import torchvision
 import torchvision.transforms as transforms
+import matplotlib.pyplot as plt
+import numpy as np
 
 # Load the MNIST dataset
 train_set = torchvision.datasets.MNIST(root='./data', train=True, download=True, transform=transforms.ToTensor())
@@ -9,18 +11,26 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=64, shuffle=Tru
 test_set = torchvision.datasets.MNIST(root='./data', train=False, download=True, transform=transforms.ToTensor())
 test_loader = torch.utils.data.DataLoader(test_set, batch_size=1000, shuffle=False)
 
+# Get some random training images
+dataiter = iter(train_loader)
+images, labels = next(dataiter)
+
+# Show tensor values for the first image in the batch
+print(images[0])
+
 # Define a simple neural network
 class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.fc1 = torch.nn.Linear(28 * 28, 100)
-        self.fc2 = torch.nn.Linear(100, 100)
-        self.fc4 = torch.nn.Linear(100, 10)
+        self.fc1 = torch.nn.Linear(28 * 28, 16)
+        self.fc2 = torch.nn.Linear(16, 16)
+        self.fc3 = torch.nn.Linear(16, 10)
 
     def forward(self, x):
         x = x.view(-1, 28 * 28)
         x = torch.nn.functional.relu(self.fc1(x))
-        x = self.fc4(x)
+        x = torch.nn.functional.relu(self.fc2(x))
+        x = self.fc3(x)
         return x
 
 net = Net()
@@ -40,6 +50,20 @@ for epoch in range(2):  # loop over the dataset multiple times
         optimizer.step()
 
 print('Finished Training')
+
+def visualize_weights(layer):
+    with torch.no_grad():
+        weights = layer.weight.data
+        #weights = weights.view(-1, 28, 28)  # Reshape for MNIST 28x28 images
+
+        fig, axes = plt.subplots(10, 10, figsize=(10, 10))  # Adjust the subplot layout and size
+        for i, ax in enumerate(axes.flat):
+            if i < weights.shape[0]:
+                ax.imshow(weights[i], cmap='gray')
+                ax.axis('off')
+        plt.show()
+
+visualize_weights(net.fc1)
 
 # Test the network on the test data
 correct = 0
