@@ -30,9 +30,9 @@ net = Net()
 
 # Define loss function and optimizer
 criterion = torch.nn.CrossEntropyLoss()
-optimizer = torch.optim.SGD(net.parameters(), lr=0.1, momentum=0.9)
+optimizer = torch.optim.SGD(net.parameters(), lr=0.1, momentum=0.75)
 
-number_of_epochs = 10
+number_of_epochs = 7
 # Train the network
 for epoch in range(number_of_epochs):  # loop over the dataset multiple times
     running_loss = 0.0
